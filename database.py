@@ -1,8 +1,16 @@
+import sys
 from sqlalchemy import (
     create_engine,
     inspect,
     text,
 )
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 from sqlalchemy.orm import (
     declarative_base,
     sessionmaker,

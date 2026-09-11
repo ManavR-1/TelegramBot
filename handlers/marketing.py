@@ -216,14 +216,20 @@ async def marketing_button(
 
     if query.from_user.id != ADMIN_ID:
 
-        await query.answer(
-            "Not authorized.",
-            show_alert=True,
-        )
+        try:
+            await query.answer(
+                "Not authorized.",
+                show_alert=True,
+            )
+        except Exception:
+            pass
 
         return ConversationHandler.END
 
-    await query.answer()
+    try:
+        await query.answer()
+    except Exception:
+        pass
 
     # -----------------------------------------------------
     # PUBLISH PROMO

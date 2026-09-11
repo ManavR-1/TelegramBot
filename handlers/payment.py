@@ -32,7 +32,10 @@ async def start_payment_submission(
     context: ContextTypes.DEFAULT_TYPE,
 ):
     query = update.callback_query
-    await query.answer()
+    try:
+        await query.answer()
+    except Exception:
+        pass
 
     context.user_data.pop("payment_utr", None)
     context.user_data.pop("payment_screenshot_file_id", None)

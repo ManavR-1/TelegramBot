@@ -1,7 +1,26 @@
 import asyncio
 import os
+import sys
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+import socket
+
+_orig_getaddrinfo = socket.getaddrinfo
+
+
+def _ipv4_getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+    return _orig_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+
+
+socket.getaddrinfo = _ipv4_getaddrinfo
 
 
 # ---------------------------------------------------------
@@ -319,7 +338,10 @@ async def button_handler(
 
     query = update.callback_query
 
-    await query.answer()
+    try:
+        await query.answer()
+    except Exception:
+        pass
 
     if query.data == "buy_membership":
 
@@ -402,16 +424,16 @@ async def error_handler(
     print("=" * 70)
 
     if context.error:
-
         print(
             f"Error type: "
             f"{type(context.error).__name__}"
         )
-
         print(
             f"Error details: "
             f"{context.error}"
         )
+        import traceback
+        traceback.print_exception(context.error)
 
     if update:
 
@@ -637,7 +659,7 @@ def main():
     print()
 
     app.run_polling(
-        drop_pending_updates=False,
+        drop_pending_updates=True,
         bootstrap_retries=-1,
     )
 

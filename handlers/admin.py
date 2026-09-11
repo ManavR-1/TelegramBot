@@ -60,7 +60,10 @@ async def approve_payment(
 ):
     query = update.callback_query
 
-    await query.answer()
+    try:
+        await query.answer()
+    except Exception:
+        pass
 
     # ---------------------------------------------------------
     # ADMIN SECURITY CHECK
@@ -706,7 +709,10 @@ async def reject_payment(
 ):
     query = update.callback_query
 
-    await query.answer()
+    try:
+        await query.answer()
+    except Exception:
+        pass
 
     # ---------------------------------------------------------
     # ADMIN SECURITY CHECK
