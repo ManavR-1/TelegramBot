@@ -1,0 +1,23 @@
+services:
+  - type: worker
+    name: telegram-premium-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        sync: false
+      - key: CHANNEL_ID
+        sync: false
+      - key: FREE_CHANNEL_ID
+        sync: false
+      - key: UPI_ID
+        sync: false
+      - key: PLAN_PRICE
+        sync: false
+      - key: PLAN_DURATION_DAYS
+        sync: false

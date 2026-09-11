@@ -112,17 +112,46 @@ A feature-rich Telegram bot for managing paid/VIP channel subscriptions with UPI
 
 ---
 
-## Running the Bot
+## Running the Bot Permanently
 
-Initialize the database and start the bot:
+### Option A: Local Windows Background Auto-Start (Runs on PC)
+You can have the bot run continuously on your computer in the background with auto-restart on network drops:
 
-`ash
-python app.py
-`
+1. **Auto-start on Windows boot**:
+   - Double-click `install_autostart.bat` to register the bot in your Windows Startup folder. It will launch automatically and silently whenever you log in.
+2. **Manual Silent Start**:
+   - Double-click `start_bot_silent.vbs` to run the bot in the background with no open terminal window.
+3. **View Live Logs**:
+   - Check `logs/bot.log` to inspect real-time bot operations and activity.
+4. **Stop the Bot**:
+   - Double-click `stop_bot.bat` to stop all running bot background processes.
+
+---
+
+### Option B: Cloud Hosting (Runs 24/7 Online even when PC is off)
+
+Since the repository is on GitHub, you can deploy it to free cloud platforms:
+
+#### 1. Deploy to Render.com (Recommended)
+1. Sign up at [render.com](https://render.com) and connect your GitHub account.
+2. Click **New +** -> **Background Worker**.
+3. Select your repository: `ManavR-1/TelegramBot`.
+4. Render will automatically detect the settings from `render.yaml`:
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `python app.py`
+5. In **Environment Variables**, add the values from your `.env` (`BOT_TOKEN`, `ADMIN_ID`, `CHANNEL_ID`, `FREE_CHANNEL_ID`, `UPI_ID`, `PLAN_PRICE`, `PLAN_DURATION_DAYS`).
+6. Click **Create Background Worker**. Your bot is now permanently online 24/7!
+
+#### 2. Deploy via Docker
+Build and run using the included `Dockerfile`:
+```bash
+docker build -t telegram-premium-bot .
+docker run -d --env-file .env --name telegram-bot telegram-premium-bot
+```
 
 ---
 
 ## Security Notes
 
-- Never commit your .env file or live database to version control.
-- Your .env and images/qr.png are excluded by default in .gitignore.
+- Never commit your `.env` file or live database to version control.
+- Your `.env` and `images/qr.png` are excluded by default in `.gitignore`.
